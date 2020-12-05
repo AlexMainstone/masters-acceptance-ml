@@ -18,6 +18,7 @@ if not os.path.exists("models"):
 print("STANDARD:")
 standard_model = model.Model(len(x[0]))
 standard_model.standard_fit(x, y)
+print(standard_model.predict(x))
 pickle.dump(standard_model, open("models/standard_model.ser", "wb"))
 
 # print("STOCHASTIC:")

@@ -1,7 +1,7 @@
 import numpy as np
 
 class Model:
-    def __init__(self, features=5, max_iter=2500, alpha=0.01, precision=0.01):
+    def __init__(self, features=5, max_iter=25000, alpha=0.0005, precision=0.01):
         self.theta = np.zeros(features+1)
         self.alpha = alpha
         self.precision = precision
@@ -15,6 +15,8 @@ class Model:
     def standard_fit(self, x, y):
         # add a column of 1s
         x = np.array(np.hstack((np.ones((len(x), 1)), x)))
+
+        # stores gradient of cost function
         dt = np.zeros(self.m)
 
         for i in range(self.max_iter):
@@ -32,14 +34,16 @@ class Model:
             self.theta -= self.alpha * dt
 
             # Check precision
-            if abs(sum(self.theta - prev_theta)) < self.precision:
-                print("PRECISION MET!")
-                break
+            # if abs(sum(self.theta - prev_theta)) < self.precision:
+                # print("PRECISION MET!")
+                # break
 
+            # Print every 100 iterations
             if i % 100 == 0:
                 # Calculate cost
                 pred_cost = self.cost(pred_y, y)
                 print("ITERATION " + str(i) + ": " + str(pred_cost))
 
     def predict(self, x):
-        return self.m.dot(x.T) + self.b
+        x = np.array(np.hstack((np.ones((len(x), 1)), x)))
+        return np.dot(x, self.theta)

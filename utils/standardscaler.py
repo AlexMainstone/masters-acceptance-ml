@@ -1,5 +1,6 @@
 import numpy as np
 
+# Returns difference in mean and deviation of data
 def scale(data):
     # iterate through features
     datat = data.T
