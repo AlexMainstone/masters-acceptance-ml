@@ -43,7 +43,57 @@ class Model:
                 # Calculate cost
                 pred_cost = self.cost(pred_y, y)
                 print("ITERATION " + str(i) + ": " + str(pred_cost))
+    
+    def stochastic_fit(self, x, y):
+        # add a column of 1s
+        x = np.array(np.hstack((np.ones((len(x), 1)), x)))
+
+        # stores gradient of cost function
+        dt = np.zeros(self.m)
+
+        # Shuffle dataset
+        np.random.shuffle(x)
+
+        for i in range(self.max_iter):
+            for xj, yj in zip(x, y):
+                # Predict
+                pred_y = np.dot(xj, self.theta)
+
+                # Calculate loss
+                loss = pred_y - yj
+
+                # Calculate gradient for j
+                dt = np.dot(xj.T, loss)
+
+                # Calculate theta
+                self.theta -= self.alpha * dt
+    
+    def minibatch_fit(self, x, y, batch_size=10):
+        # add a column of 1s
+        x = np.array(np.hstack((np.ones((len(x), 1)), x)))
+
+        # stores gradient of cost function
+        dt = np.zeros(self.m)
+        
+        for i in range(self.max_iter):
+            for j in range(np.floor(len(x)/batch_size)):
+                # Get subarrays of batch size
+                xj  = x[j*batch_size:j+batch_size]
+                yj  = y[j*batch_size:j+batch_size]
+
+                # Predicted y
+                pred_y = np.dot(xj, self.theta)
+
+                # Calculate loss
+                loss = pred_y - yj
+
+                # Calculate batch gradient
+                dt = np.dot(xj.T, loss)
+
+                # Calculate theta
+                self.theta -= self.alpha * dt
 
     def predict(self, x):
+        # Add column of 1s
         x = np.array(np.hstack((np.ones((len(x), 1)), x)))
         return np.dot(x, self.theta)

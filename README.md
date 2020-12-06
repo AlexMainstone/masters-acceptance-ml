@@ -10,6 +10,7 @@ The code will train & test 3 models of gradient descent:
 ## Code
 - **model.py** - Contains the model code, and each gradient descent algorithm
 - utils/**csvreader.py** - reads the csv data into python lists
+- utils/**standardscaler.py** - applies *data = (data - mean) / std* for each feature
 - **train-model.py** - trains the models
 - **test-model.py** - tests the models
 
