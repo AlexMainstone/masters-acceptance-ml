@@ -76,7 +76,7 @@ class Model:
         dt = np.zeros(self.m)
         
         for i in range(self.max_iter):
-            for j in range(np.floor(len(x)/batch_size)):
+            for j in range(int(len(x)/batch_size)):
                 # Get subarrays of batch size
                 xj  = x[j*batch_size:j+batch_size]
                 yj  = y[j*batch_size:j+batch_size]
